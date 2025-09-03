@@ -6,7 +6,7 @@ def ball_movement():
     """
     Handles the movement of the ball and collision detection with the player and screen boundaries.
     """
-    global ball_speed_x, ball_speed_y, score, start, high_score
+    global ball_speed_x, ball_speed_y, score, start, high_score, difficulty_level
 
     # Move the ball
     ball.x += ball_speed_x
@@ -16,8 +16,8 @@ def ball_movement():
     # TODO Task 5 Create a Merge Conflict
     speed = 1
     if start:
-        ball_speed_x = speed * random.choice(range(-10, 10))  # Randomize initial horizontal direction
-        ball_speed_y = speed * random.choice(range(-10, 10))  # Randomize initial vertical direction
+        ball_speed_x = speed * random.choice((-2, 2))  # Randomize initial horizontal direction
+        ball_speed_y = speed * random.choice((-2, 2))  # Randomize initial vertical direction
         start = False
 
     # Ball collision with the player paddle
@@ -35,11 +35,10 @@ def ball_movement():
             # TODO Task 6: Add sound effects HERE
 
             # difficulty levels
-            difficulty_level = 0
-            if score >= (difficulty_level + 1):
-                ball_speed_x *= 1.2
-                ball_speed_y *= 1.2
-                difficulty_level += 1 # we increased difficulty each time the score increases by one
+            ball_speed_x *= 1.2
+            ball_speed_y *= 1.2
+            difficulty_level += 1 # we increased difficulty each time the score increases by one
+                #restart difficulty
 
     # Ball collision with top boundary
     if ball.top <= 0:
@@ -75,10 +74,11 @@ def restart():
     """
     Resets the ball and player scores to the initial state.
     """
-    global ball_speed_x, ball_speed_y, score
+    global ball_speed_x, ball_speed_y, score, difficulty_level
     ball.center = (screen_width / 2, screen_height / 2)  # Reset ball position to center
     ball_speed_y, ball_speed_x = 0, 0  # Stop ball movement
     score = 0  # Reset player score
+    difficulty_level = 0
 
 # General setup
 pygame.mixer.pre_init(44100, -16, 1, 1024)
@@ -112,13 +112,11 @@ ball_speed_x = 2 #edit the speed in each direction to increase difficulty
 ball_speed_y = 2
 player_speed = 0
 player2_speed = 0
-
 # Score Text setup
 score = 0
 high_score = 0
 basic_font = pygame.font.Font('freesansbold.ttf', 30)  # Font for displaying score
-
-
+difficulty_level = 0
 start = False  # Indicates if the game has started
 
 # Main game loop
