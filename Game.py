@@ -16,14 +16,14 @@ def ball_movement():
     # TODO Task 5 Create a Merge Conflict
     speed = 1
     if start:
-        ball_speed_x = speed * random.choice((7, 5))  # Randomize initial horizontal direction
-        ball_speed_y = speed * random.choice((1, -1))  # Randomize initial vertical direction
+        ball_speed_x = speed * random.choice(range(-10, 10))  # Randomize initial horizontal direction
+        ball_speed_y = speed * random.choice(range(-10, 10))  # Randomize initial vertical direction
         start = False
 
     # Ball collision with the player paddle
-    if ball.colliderect(player):
-        if abs(ball.bottom - player.top) < 10:  # Check if ball hits the top of the paddle
-            # TODO Task 2: Fix score to increase by 1
+    if ball.colliderect(player) or ball.colliderect(player_2):
+        if abs(ball.bottom - player.top) < 10 or abs(ball.bottom - player_2.top) < 10:  # Check if ball hits the top of the paddle
+            # TODO Task 2: Fix score to increase by 1 done
             score += 1  # Increase player score- Normarie
             #high score system
             if score > high_score:
@@ -58,12 +58,18 @@ def player_movement():
     Handles the movement of the player paddle, keeping it within the screen boundaries.
     """
     player.x += player_speed  # Move the player paddle horizontally
+    player_2.x += player2_speed #player two movement
 
     # Prevent the paddle from moving out of the screen boundaries
     if player.left <= 0:
         player.left = 0
     if player.right >= screen_width:
         player.right = screen_width
+    #PLayer 2
+    if player_2.left <= 0:
+        player_2.left = 0
+    if player_2.right >= screen_width:
+        player_2.right = screen_width
 
 def restart():
     """
@@ -80,8 +86,8 @@ pygame.init()
 clock = pygame.time.Clock()
 
 # Main Window setup
-screen_width = 500  # Screen width (can be adjusted)
-screen_height = 500  # Screen height (can be adjusted)
+screen_width = 800  # Screen width (can be adjusted)
+screen_height = 700  # Screen height (can be adjusted)
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Pong 33')  # Set window title
 
@@ -93,13 +99,19 @@ ball = pygame.Rect(screen_width / 2 - 15, screen_height / 2 - 15, 30, 30)  # Bal
 # TODO Task 1 Make the paddle bigger
 player_height = 15
 player_width = 100
-player = pygame.Rect(screen_width/2 - 45, screen_height - 20, player_width, player_height)  # Player paddle
+player = pygame.Rect(screen_width/2 - 45, screen_height - 20, player_width, player_height)  # Player 1 paddle
+
+#BONUS: multiplayer
+player_2_height = 15
+player_2_width = 100
+player_2 = pygame.Rect( 45, screen_height - 20, player_width, player_height)  # Player 2 paddle
+
 
 # Game Variables
 ball_speed_x = 2 #edit the speed in each direction to increase difficulty
 ball_speed_y = 2
 player_speed = 0
-
+player2_speed = 0
 
 # Score Text setup
 score = 0
@@ -125,11 +137,22 @@ while True:
                 player_speed += 6  # Move paddle right
             if event.key == pygame.K_SPACE:
                 start = True  # Start the ball movement
-        if event.type == pygame.KEYUP:
+        if event.type == pygame.KEYUP :
             if event.key == pygame.K_LEFT:
                 player_speed += 6  # Stop moving left
             if event.key == pygame.K_RIGHT:
                 player_speed -= 6  # Stop moving right
+        #player 2 movements
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_a:
+                player2_speed -=6 # player two movement
+            if event.key == pygame.K_d:
+                player2_speed += 6  # player two movement
+        if event.type == pygame.KEYUP :
+            if event.key == pygame.K_a:
+                player2_speed += 6  # player two movement
+            if event.key == pygame.K_d:
+                player2_speed -= 6  # player two movement
 
     # Game Logic
     ball_movement()
@@ -139,7 +162,8 @@ while True:
     light_grey = pygame.Color('grey83')
     red = pygame.Color('red')
     screen.fill(bg_color)  # Clear screen with background color
-    pygame.draw.rect(screen, light_grey, player)  # Draw player paddle
+    pygame.draw.rect(screen, light_grey, player)  # Draw player 1 paddle
+    pygame.draw.rect(screen, light_grey, player_2)  # Draw player 2 paddle
     # TODO Task 3: Change the Ball Color
     pygame.draw.ellipse(screen, light_grey, ball)  # Draw ball
     player_text = basic_font.render(f'Score:{score}', False, light_grey)  # Render player score
