@@ -1,10 +1,12 @@
+from tkinter import font
+
 import pygame, sys, random
 
 def ball_movement():
     """
     Handles the movement of the ball and collision detection with the player and screen boundaries.
     """
-    global ball_speed_x, ball_speed_y, score, start
+    global ball_speed_x, ball_speed_y, score, start, high_score
 
     # Move the ball
     ball.x += ball_speed_x
@@ -12,9 +14,9 @@ def ball_movement():
 
     # Start the ball movement when the game begins
     # TODO Task 5 Create a Merge Conflict
-    speed = 7
+    speed = 1
     if start:
-        ball_speed_x = speed * random.choice((1, -1))  # Randomize initial horizontal direction
+        ball_speed_x = speed * random.choice((7, 5))  # Randomize initial horizontal direction
         ball_speed_y = speed * random.choice((1, -1))  # Randomize initial vertical direction
         start = False
 
@@ -23,8 +25,21 @@ def ball_movement():
         if abs(ball.bottom - player.top) < 10:  # Check if ball hits the top of the paddle
             # TODO Task 2: Fix score to increase by 1
             score += 1  # Increase player score- Normarie
-            ball_speed_y *= -1  # Reverse ball's vertical direction
+            #high score system
+            if score > high_score:
+                high_score = score
+
+
+            ball_speed_y *= -1  # Reverse ball's vertical
+
             # TODO Task 6: Add sound effects HERE
+
+            # difficulty levels
+            difficulty_level = 0
+            if score >= (difficulty_level + 1):
+                ball_speed_x *= 1.2
+                ball_speed_y *= 1.2
+                difficulty_level += 1 # we increased difficulty each time the score increases by one
 
     # Ball collision with top boundary
     if ball.top <= 0:
@@ -68,7 +83,7 @@ clock = pygame.time.Clock()
 screen_width = 500  # Screen width (can be adjusted)
 screen_height = 500  # Screen height (can be adjusted)
 screen = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption('Pong')  # Set window title
+pygame.display.set_caption('Pong 33')  # Set window title
 
 # Colors
 bg_color = pygame.Color('grey12')
@@ -81,13 +96,16 @@ player_width = 100
 player = pygame.Rect(screen_width/2 - 45, screen_height - 20, player_width, player_height)  # Player paddle
 
 # Game Variables
-ball_speed_x = 0
-ball_speed_y = 0
+ball_speed_x = 2 #edit the speed in each direction to increase difficulty
+ball_speed_y = 2
 player_speed = 0
+
 
 # Score Text setup
 score = 0
-basic_font = pygame.font.Font('freesansbold.ttf', 32)  # Font for displaying score
+high_score = 0
+basic_font = pygame.font.Font('freesansbold.ttf', 30)  # Font for displaying score
+
 
 start = False  # Indicates if the game has started
 
@@ -124,8 +142,10 @@ while True:
     pygame.draw.rect(screen, light_grey, player)  # Draw player paddle
     # TODO Task 3: Change the Ball Color
     pygame.draw.ellipse(screen, light_grey, ball)  # Draw ball
-    player_text = basic_font.render(f'{score}', False, light_grey)  # Render player score
-    screen.blit(player_text, (screen_width/2 - 15, 10))  # Display score on screen
+    player_text = basic_font.render(f'Score:{score}', False, light_grey)  # Render player score
+    player_high_score = basic_font.render(f'High score: {high_score}', False, light_grey)  # Render player score
+    screen.blit(player_text, (screen_width/ 1.5 -15, 10))  # Display score on screen
+    screen.blit(player_high_score, (screen_width /  100 , 10))  # Display score on screen
 
     # Update display
     pygame.display.flip()
