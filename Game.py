@@ -115,7 +115,7 @@ player2_speed = 0
 # Score Text setup
 score = 0
 high_score = 0
-basic_font = pygame.font.Font('freesansbold.ttf', 30)  # Font for displaying score
+basic_font = pygame.font.Font('freesansbold.ttf', 25)  # Font for displaying score
 difficulty_level = 0
 start = False  # Indicates if the game has started
 
