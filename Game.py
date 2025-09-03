@@ -23,7 +23,7 @@ def ball_movement():
     # Ball collision with the player paddle
     if ball.colliderect(player) or ball.colliderect(player_2):
         if abs(ball.bottom - player.top) < 10 or abs(ball.bottom - player_2.top) < 10:  # Check if ball hits the top of the paddle
-            # TODO Task 2: Fix score to increase by 1 done
+            # Task 2: Fix score to increase by 1
             score += 1  # Increase player score- Normarie
             #high score system
             if score > high_score:
