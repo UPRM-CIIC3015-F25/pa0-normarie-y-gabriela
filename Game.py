@@ -6,7 +6,7 @@ def ball_movement():
     """
     Handles the movement of the ball and collision detection with the player and screen boundaries.
     """
-    global ball_speed_x, ball_speed_y, score, start, high_score, difficulty_level
+    global ball_speed_x, ball_speed_y, score, start, high_score, difficulty_level, losing_screen
 
     # Move the ball
     ball.x += ball_speed_x
@@ -50,7 +50,8 @@ def ball_movement():
 
     # Ball goes below the bottom boundary (missed by player)
     if ball.bottom > screen_height:
-        restart()  # Reset the game
+        losing_screen = True
+
 
 def player_movement():
     """
@@ -74,7 +75,7 @@ def restart():
     """
     Resets the ball and player scores to the initial state.
     """
-    global ball_speed_x, ball_speed_y, score, difficulty_level
+    global ball_speed_x, ball_speed_y, score, difficulty_level, show_menu, losing_screen
     ball.center = (screen_width / 2, screen_height / 2)  # Reset ball position to center
     ball_speed_y, ball_speed_x = 0, 0  # Stop ball movement
     score = 0  # Reset player score
@@ -90,7 +91,12 @@ screen_width = 800  # Screen width (can be adjusted)
 screen_height = 700  # Screen height (can be adjusted)
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Pong 33')  # Set window title
-
+#Start Screen
+start_screen_image = pygame.image.load('start_up.png')  #the menu of pong 33
+start_screen_image = pygame.transform.scale(start_screen_image, (screen_width, screen_height)) #fit
+#Losing Screen
+losing_screen_image = pygame.image.load('expedition_failed.png')  #the menu of pong 33
+losing_screen_image = pygame.transform.scale(losing_screen_image, (screen_width, screen_height)) #fit
 # Colors
 bg_color = pygame.Color('grey12')
 
@@ -117,7 +123,9 @@ score = 0
 high_score = 0
 basic_font = pygame.font.Font('freesansbold.ttf', 25)  # Font for displaying score
 difficulty_level = 0
+show_menu = True #shows the menu
 start = False  # Indicates if the game has started
+losing_screen = False #indicarted when player fails
 
 # Main game loop
 while True:
@@ -134,7 +142,13 @@ while True:
             if event.key == pygame.K_RIGHT:
                 player_speed += 6  # Move paddle right
             if event.key == pygame.K_SPACE:
+                show_menu = False # Hide the menu of Pong 33
                 start = True  # Start the ball movement
+            if event.key == pygame.K_y:
+                losing_screen = False  # Hide Losing Screen
+                show_menu = True # Show the menu of Pong 33
+                restart()  # Reset the game
+
         if event.type == pygame.KEYUP :
             if event.key == pygame.K_LEFT:
                 player_speed += 6  # Stop moving left
@@ -151,6 +165,17 @@ while True:
                 player2_speed += 6  # player two movement
             if event.key == pygame.K_d:
                 player2_speed -= 6  # player two movement
+    # Trying to display the menu screen
+    if show_menu == True:
+        # Show the start screen
+        screen.blit(start_screen_image, (0, 0))
+        pygame.display.flip()
+        continue  # It keeps showing the menu until the space is pressed
+    # After game menu
+    if losing_screen == True:
+        screen.blit(losing_screen_image, (0, 0))
+        pygame.display.flip()
+        continue  # keeps the losing screen
 
     # Game Logic
     ball_movement()
