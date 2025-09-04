@@ -32,7 +32,16 @@ def ball_movement():
 
             ball_speed_y *= -1  # Reverse ball's vertical
 
-            # TODO Task 6: Add sound effects HERE
+            # TODO Task 6: Add sound_effects HERE
+            pygame.init()
+            pygame.mixer.init()
+
+            paddle_sfx1 = pygame.mixer.Sound("sound_effects/wheee.wav")
+            paddle_sfx2 = pygame.mixer.Sound("sound_effects/whooo.wav")
+            paddle_sounds = [paddle_sfx1, paddle_sfx2]
+
+            random_sfx = random.choice(paddle_sounds)
+            random_sound = pygame.mixer.Sound.play(random_sfx)
 
             # difficulty levels
             ball_speed_x *= 1.2
