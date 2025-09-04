@@ -32,7 +32,16 @@ def ball_movement():
 
             ball_speed_y *= -1  # Reverse ball's vertical
 
-            # TODO Task 6: Add sound effects HERE
+            # TODO Task 6: Add sound_effects HERE
+            pygame.init()
+            pygame.mixer.init()
+
+            paddle_sfx1 = pygame.mixer.Sound("sound_effects/wheee.wav")
+            paddle_sfx2 = pygame.mixer.Sound("sound_effects/whooo.wav")
+            paddle_sounds = [paddle_sfx1, paddle_sfx2]
+
+            random_sfx = random.choice(paddle_sounds)
+            random_sound = pygame.mixer.Sound.play(random_sfx)
 
             # difficulty levels
             ball_speed_x *= 1.2
@@ -87,7 +96,7 @@ pygame.init()
 clock = pygame.time.Clock()
 
 # Main Window setup
-screen_width = 800  # Screen width (can be adjusted)
+screen_width = 900  # Screen width (can be adjusted)
 screen_height = 700  # Screen height (can be adjusted)
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Pong 33')  # Set window title
@@ -104,7 +113,7 @@ bg_color = pygame.Color('grey12')
 ball = pygame.Rect(screen_width / 2 - 15, screen_height / 2 - 15, 30, 30)  # Ball (centered)
 # TODO Task 1 Make the paddle bigger
 player_height = 15
-player_width = 100
+player_width = 200
 player = pygame.Rect(screen_width/2 - 45, screen_height - 20, player_width, player_height)  # Player 1 paddle
 
 #BONUS: multiplayer
@@ -184,11 +193,12 @@ while True:
     # Visuals
     light_grey = pygame.Color('grey83')
     red = pygame.Color('red')
+    yellow = pygame.Color('yellow')
     screen.fill(bg_color)  # Clear screen with background color
     pygame.draw.rect(screen, light_grey, player)  # Draw player 1 paddle
     pygame.draw.rect(screen, light_grey, player_2)  # Draw player 2 paddle
     # TODO Task 3: Change the Ball Color
-    pygame.draw.ellipse(screen, light_grey, ball)  # Draw ball
+    pygame.draw.ellipse(screen, yellow, ball)  # Draw ball
     player_text = basic_font.render(f'Score:{score}', False, light_grey)  # Render player score
     player_high_score = basic_font.render(f'High score: {high_score}', False, light_grey)  # Render player score
     screen.blit(player_text, (screen_width/ 1.5 -15, 10))  # Display score on screen
