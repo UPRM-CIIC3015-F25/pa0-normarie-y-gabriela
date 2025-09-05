@@ -13,10 +13,10 @@ def ball_movement():
     ball.y += ball_speed_y
 
     # Start the ball movement when the game begins
-    # TODO Task 5 Create a Merge Conflict
+    # Task 5 Create a Merge Conflict DONE
     speed = 1
     if start:
-        ball_speed_x = 7  # Randomize initial horizontal direction
+        ball_speed_x = 5 # Randomize initial horizontal direction
         ball_speed_y = speed * random.choice((-2, 2))  # Randomize initial vertical direction
         start = False
 
@@ -32,7 +32,7 @@ def ball_movement():
 
             ball_speed_y *= -1  # Reverse ball's vertical
 
-            # TODO Task 6: Add sound_effects HERE
+            #  Task 6: Add sound_effects HERE DONE
             pygame.init()
             pygame.mixer.init()
 
@@ -139,7 +139,7 @@ losing_screen = False #indicarted when player fails
 # Main game loop
 while True:
     # Event handling
-    # TODO Task 4: Add your name
+    # Task 4: Add your name DONE
     name = "Normarie Martinez"
     for event in pygame.event.get():
         if event.type == pygame.QUIT:  # Quit the game
@@ -197,7 +197,7 @@ while True:
     screen.fill(bg_color)  # Clear screen with background color
     pygame.draw.rect(screen, light_grey, player)  # Draw player 1 paddle
     pygame.draw.rect(screen, light_grey, player_2)  # Draw player 2 paddle
-    # TODO Task 3: Change the Ball Color
+    # Task 3: Change the Ball Color DONE
     pygame.draw.ellipse(screen, yellow, ball)  # Draw ball
     player_text = basic_font.render(f'Score:{score}', False, light_grey)  # Render player score
     player_high_score = basic_font.render(f'High score: {high_score}', False, light_grey)  # Render player score
