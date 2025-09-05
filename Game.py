@@ -16,7 +16,7 @@ def ball_movement():
     # TODO Task 5 Create a Merge Conflict
     speed = 1
     if start:
-        ball_speed_x = speed * random.choice((-2, 10))  # Randomize initial horizontal direction
+        ball_speed_x = speed * random.choice((7, 5))  # Randomize initial horizontal direction
         ball_speed_y = speed * random.choice((-2, 2))  # Randomize initial vertical direction
         start = False
 
