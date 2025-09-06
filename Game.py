@@ -136,6 +136,26 @@ show_menu = True #shows the menu
 start = False  # Indicates if the game has started
 losing_screen = False #indicarted when player fails
 
+# Backgrounds
+
+nest_image = pygame.image.load('bg_images/esquies_nest.jpg')
+nest_image = pygame.transform.smoothscale(nest_image, (screen_width, screen_height))
+stone_cliffs_image = pygame.image.load('bg_images/stone_wave_cliffs2.jpg')
+stone_cliffs_image = pygame.transform.smoothscale(stone_cliffs_image, (screen_width, screen_height))
+sirene_image = pygame.image.load('bg_images/sirene33.jpg')
+sirene_image = pygame.transform.smoothscale(sirene_image, (screen_width, screen_height))
+
+def change_background():
+    global difficulty_level
+    if difficulty_level < 5:
+        return nest_image
+    elif difficulty_level <= 10:
+        return stone_cliffs_image
+    else:
+        return sirene_image
+
+screen.blit(change_background(), (0, 0))
+
 # Main game loop
 while True:
     # Event handling
@@ -194,7 +214,8 @@ while True:
     light_grey = pygame.Color('grey83')
     red = pygame.Color('red')
     yellow = pygame.Color('yellow')
-    screen.fill(bg_color)  # Clear screen with background color
+
+    screen.blit(change_background(), (0, 0))  # Clear screen with background color
     pygame.draw.rect(screen, light_grey, player)  # Draw player 1 paddle
     pygame.draw.rect(screen, light_grey, player_2)  # Draw player 2 paddle
     # Task 3: Change the Ball Color DONE
