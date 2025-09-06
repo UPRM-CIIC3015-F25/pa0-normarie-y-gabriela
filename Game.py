@@ -108,6 +108,13 @@ losing_screen_image = pygame.image.load('expedition_failed.png')  #the menu of p
 losing_screen_image = pygame.transform.scale(losing_screen_image, (screen_width, screen_height)) #fit
 # Colors
 bg_color = pygame.Color('grey12')
+#Backgrounds
+nest_image = pygame.image.load('bg_images/esquies_nest.jpg')
+nest_image = pygame.transform.smoothscale(nest_image, (screen_width, screen_height))
+def bg_nest(nest_image):
+        screen.blit(nest_image, (0, 0))
+        size = pygame.transform.scale(nest_image, (screen_width, screen_height))
+screen.blit(nest_image, (0, 0))
 
 # Game Rectangles (ball and player paddle)
 ball = pygame.Rect(screen_width / 2 - 15, screen_height / 2 - 15, 30, 30)  # Ball (centered)
@@ -194,7 +201,8 @@ while True:
     light_grey = pygame.Color('grey83')
     red = pygame.Color('red')
     yellow = pygame.Color('yellow')
-    screen.fill(bg_color)  # Clear screen with background color
+
+    screen.blit(nest_image, (0, 0))  # Clear screen with background color
     pygame.draw.rect(screen, light_grey, player)  # Draw player 1 paddle
     pygame.draw.rect(screen, light_grey, player_2)  # Draw player 2 paddle
     # Task 3: Change the Ball Color DONE
