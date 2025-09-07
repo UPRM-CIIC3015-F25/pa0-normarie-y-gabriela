@@ -92,12 +92,12 @@ def restart():
     difficulty_level = 0
     death_sound.stop()
     losing_sound = False #Stops music from the death screen
+    pygame.mixer.music.play(-1, 0.0) #Plays the background music again
 # General setup
 pygame.mixer.pre_init(44100, -16, 1, 1024)
 pygame.init()
 clock = pygame.time.Clock()
 #BONUS: background music
-
 pygame.mixer.music.load("esquies_bath.wav")
 pygame.mixer.music.play(-1, 0.0)
 pygame.mixer.music.set_volume(0.5)
@@ -111,7 +111,7 @@ screen_height = 700  # Screen height (can be adjusted)
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Pong 33')  # Set window title
 #Start Screen
-start_screen_image = pygame.image.load('start_up.png')  #the menu of pong 33
+start_screen_image = pygame.image.load('Pong_33_start_up.png')  #the menu of pong 33
 start_screen_image = pygame.transform.scale(start_screen_image, (screen_width, screen_height)) #fit
 #Losing Screen
 losing_screen_image = pygame.image.load('expedition_failed.png')  #the menu of pong 33
@@ -178,7 +178,7 @@ screen.blit(change_background(), (0, 0))
 while True:
     # Event handling
     # Task 4: Add your name DONE
-    name = "Gabriela Moneró"
+    name = "Normarie y Gabriela"
     for event in pygame.event.get():
         if event.type == pygame.QUIT:  # Quit the game
             pygame.quit()
@@ -223,7 +223,8 @@ while True:
     if losing_screen == True:
         screen.blit(losing_screen_image, (0, 0))
         pygame.display.flip()
-        if losing_sound == False :
+        pygame.mixer.music.stop() #Stops Background Music without stopping the sound effects
+        if losing_sound == False : #Plays the losing sound effect
             death_sound.play()
             losing_sound = True
         continue  # keeps the losing screen
