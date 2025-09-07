@@ -96,8 +96,10 @@ pygame.mixer.pre_init(44100, -16, 1, 1024)
 pygame.init()
 clock = pygame.time.Clock()
 #BONUS: background music
+
 pygame.mixer.music.load("esquies_bath.wav")
 pygame.mixer.music.play(-1, 0.0)
+pygame.mixer.music.set_volume(0.5)
 
 # Main Window setup
 screen_width = 900  # Screen width (can be adjusted)
@@ -120,19 +122,19 @@ player_height = 30
 player_width = 200
 player = pygame.Rect(screen_width/2 - 45, screen_height - 20, player_width, player_height)  # Player 1 paddle
 
-#BONUS:change paddle and ball
-baguette = pygame.image.load('baguette_paddle.png')
-baguette = pygame.transform.scale(baguette, (player_width, player_height))
-baguette2 = pygame.image.load('baguette_paddle.png')
-baguette2 = pygame.transform.scale(baguette2, (player_width, player_height))
-
-esquie_ball = pygame.image.load('esquie_ball.png')
-esquie_ball = pygame.transform.scale(esquie_ball, (ball.width, ball.height))
 #BONUS: multiplayer
 player_2_height = 30
 player_2_width = 200
 player_2 = pygame.Rect( 45, screen_height - 20, player_width, player_height)  # Player 2 paddle
 
+#BONUS:change paddle and ball
+baguette = pygame.image.load('baguette2.png')
+baguette = pygame.transform.scale(baguette, (player_width, player_height))
+baguette2 = pygame.image.load('baguette2.png')
+baguette2 = pygame.transform.scale(baguette2, (player_2_width, player_2_height))
+
+esquie_ball = pygame.image.load('esquie_ball.png')
+esquie_ball = pygame.transform.scale(esquie_ball, (ball.width, ball.height))
 
 # Game Variables
 ball_speed_x = 2 #edit the speed in each direction to increase difficulty
@@ -186,9 +188,11 @@ while True:
                 show_menu = False # Hide the menu of Pong 33
                 start = True  # Start the ball movement
             if event.key == pygame.K_y:
+                death_sound.stop()
                 losing_screen = False  # Hide Losing Screen
                 show_menu = True # Show the menu of Pong 33
                 restart()  # Reset the game
+
 
         if event.type == pygame.KEYUP :
             if event.key == pygame.K_LEFT:
@@ -216,6 +220,12 @@ while True:
     if losing_screen == True:
         screen.blit(losing_screen_image, (0, 0))
         pygame.display.flip()
+
+        death_sound = pygame.mixer.Sound("deathscreen.wav")
+        #pygame.mixer.Sound.play(death_sound)
+        death_sound.set_volume(0.3)
+        death_sound.play()
+
         continue  # keeps the losing screen
 
     # Game Logic
@@ -230,9 +240,10 @@ while True:
     screen.blit(change_background(), (0, 0))  # Clear screen with background color
     screen.blit(baguette, (player.x, player.y))  # Draw player 1 paddle
     screen.blit(baguette2, (player_2.x, player_2.y))
-    pygame.draw.rect(screen, light_grey, player_2)  # Draw player 2 paddle
+    # pygame.draw.rect(screen, light_grey, player_2)  # Draw player 2 paddle
     # Task 3: Change the Ball Color DONE
-    pygame.draw.ellipse(screen, yellow, ball)  # Draw ball
+    #pygame.draw.ellipse(screen, yellow, ball)  # Draw ball
+    screen.blit(esquie_ball, (ball.x, ball.y))
     player_text = basic_font.render(f'Score:{score}', False, light_grey)  # Render player score
     player_high_score = basic_font.render(f'High score: {high_score}', False, light_grey)  # Render player score
     screen.blit(player_text, (screen_width/ 1.5 -15, 10))  # Display score on screen
