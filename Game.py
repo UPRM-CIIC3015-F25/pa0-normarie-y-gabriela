@@ -85,12 +85,13 @@ def restart():
     """
     Resets the ball and player scores to the initial state.
     """
-    global ball_speed_x, ball_speed_y, score, difficulty_level, show_menu, losing_screen
+    global ball_speed_x, ball_speed_y, score, difficulty_level, show_menu, losing_screen, losing_sound
     ball.center = (screen_width / 2, screen_height / 2)  # Reset ball position to center
     ball_speed_y, ball_speed_x = 0, 0  # Stop ball movement
     score = 0  # Reset player score
     difficulty_level = 0
-
+    death_sound.stop()
+    losing_sound = False #Stops music from the death screen
 # General setup
 pygame.mixer.pre_init(44100, -16, 1, 1024)
 pygame.init()
@@ -100,7 +101,10 @@ clock = pygame.time.Clock()
 pygame.mixer.music.load("esquies_bath.wav")
 pygame.mixer.music.play(-1, 0.0)
 pygame.mixer.music.set_volume(0.5)
-
+#Losing Screen Music
+death_sound = pygame.mixer.Sound("deathscreen.wav")
+death_sound.set_volume(0.8)
+losing_sound = False
 # Main Window setup
 screen_width = 900  # Screen width (can be adjusted)
 screen_height = 700  # Screen height (can be adjusted)
@@ -188,7 +192,6 @@ while True:
                 show_menu = False # Hide the menu of Pong 33
                 start = True  # Start the ball movement
             if event.key == pygame.K_y:
-                death_sound.stop()
                 losing_screen = False  # Hide Losing Screen
                 show_menu = True # Show the menu of Pong 33
                 restart()  # Reset the game
@@ -220,11 +223,9 @@ while True:
     if losing_screen == True:
         screen.blit(losing_screen_image, (0, 0))
         pygame.display.flip()
-        death_sound = pygame.mixer.Sound("deathscreen.wav")
-        #pygame.mixer.Sound.play(death_sound)
-        death_sound.set_volume(0.3)
-        death_sound.play()
-
+        if losing_sound == False :
+            death_sound.play()
+            losing_sound = True
         continue  # keeps the losing screen
 
     # Game Logic
