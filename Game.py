@@ -55,7 +55,7 @@ def ball_movement():
         ball_speed_y *= -1  # Reverse ball's vertical direction
 
     # Ball collision with left and right boundaries
-    if ball.left <= 0 or ball.right >= screen_width:
+    if ball.left <= -2 or ball.right >= 880:
         ball_speed_x *= -1
 
     # Ball goes below the bottom boundary (missed by player)
@@ -134,7 +134,7 @@ baguette2 = pygame.image.load('baguette2.png')
 baguette2 = pygame.transform.scale(baguette2, (player_2_width, player_2_height))
 
 esquie_ball = pygame.image.load('esquie_ball.png')
-esquie_ball = pygame.transform.scale(esquie_ball, (ball.width, ball.height))
+esquie_ball = pygame.transform.scale(esquie_ball, (ball.width * 2 , ball.height * 2))
 
 # Game Variables
 ball_speed_x = 2 #edit the speed in each direction to increase difficulty
@@ -220,7 +220,6 @@ while True:
     if losing_screen == True:
         screen.blit(losing_screen_image, (0, 0))
         pygame.display.flip()
-
         death_sound = pygame.mixer.Sound("deathscreen.wav")
         #pygame.mixer.Sound.play(death_sound)
         death_sound.set_volume(0.3)
