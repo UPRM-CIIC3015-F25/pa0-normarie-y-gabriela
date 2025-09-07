@@ -242,7 +242,8 @@ while True:
     screen.blit(baguette2, (player_2.x, player_2.y))
     # pygame.draw.rect(screen, light_grey, player_2)  # Draw player 2 paddle
     # Task 3: Change the Ball Color DONE
-    pygame.draw.ellipse(screen, yellow, ball)  # Draw ball
+    #pygame.draw.ellipse(screen, yellow, ball)  # Draw ball
+    screen.blit(esquie_ball, (ball.x, ball.y))
     player_text = basic_font.render(f'Score:{score}', False, light_grey)  # Render player score
     player_high_score = basic_font.render(f'High score: {high_score}', False, light_grey)  # Render player score
     screen.blit(player_text, (screen_width/ 1.5 -15, 10))  # Display score on screen
