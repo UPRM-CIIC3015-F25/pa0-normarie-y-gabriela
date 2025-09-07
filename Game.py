@@ -43,6 +43,7 @@ def ball_movement():
             random_sfx = random.choice(paddle_sounds)
             random_sound = pygame.mixer.Sound.play(random_sfx)
 
+
             # difficulty levels
             ball_speed_x *= 1.2
             ball_speed_y *= 1.2
@@ -94,6 +95,9 @@ def restart():
 pygame.mixer.pre_init(44100, -16, 1, 1024)
 pygame.init()
 clock = pygame.time.Clock()
+#BONUS: background music
+pygame.mixer.music.load("esquies_bath.wav")
+pygame.mixer.music.play(-1, 0.0)
 
 # Main Window setup
 screen_width = 900  # Screen width (can be adjusted)
@@ -112,13 +116,21 @@ bg_color = pygame.Color('grey12')
 # Game Rectangles (ball and player paddle)
 ball = pygame.Rect(screen_width / 2 - 15, screen_height / 2 - 15, 30, 30)  # Ball (centered)
 # TODO Task 1 Make the paddle bigger
-player_height = 15
+player_height = 30
 player_width = 200
 player = pygame.Rect(screen_width/2 - 45, screen_height - 20, player_width, player_height)  # Player 1 paddle
 
+#BONUS:change paddle and ball
+baguette = pygame.image.load('baguette_paddle.png')
+baguette = pygame.transform.scale(baguette, (player_width, player_height))
+baguette2 = pygame.image.load('baguette_paddle.png')
+baguette2 = pygame.transform.scale(baguette2, (player_width, player_height))
+
+esquie_ball = pygame.image.load('esquie_ball.png')
+esquie_ball = pygame.transform.scale(esquie_ball, (ball.width, ball.height))
 #BONUS: multiplayer
-player_2_height = 15
-player_2_width = 100
+player_2_height = 30
+player_2_width = 200
 player_2 = pygame.Rect( 45, screen_height - 20, player_width, player_height)  # Player 2 paddle
 
 
@@ -136,7 +148,7 @@ show_menu = True #shows the menu
 start = False  # Indicates if the game has started
 losing_screen = False #indicarted when player fails
 
-# Backgrounds
+#BONUS: Backgrounds
 
 nest_image = pygame.image.load('bg_images/esquies_nest.jpg')
 nest_image = pygame.transform.smoothscale(nest_image, (screen_width, screen_height))
@@ -160,7 +172,7 @@ screen.blit(change_background(), (0, 0))
 while True:
     # Event handling
     # Task 4: Add your name DONE
-    name = "Normarie Martinez"
+    name = "Gabriela Moneró"
     for event in pygame.event.get():
         if event.type == pygame.QUIT:  # Quit the game
             pygame.quit()
@@ -216,7 +228,8 @@ while True:
     yellow = pygame.Color('yellow')
 
     screen.blit(change_background(), (0, 0))  # Clear screen with background color
-    pygame.draw.rect(screen, light_grey, player)  # Draw player 1 paddle
+    screen.blit(baguette, (player.x, player.y))  # Draw player 1 paddle
+    screen.blit(baguette2, (player_2.x, player_2.y))
     pygame.draw.rect(screen, light_grey, player_2)  # Draw player 2 paddle
     # Task 3: Change the Ball Color DONE
     pygame.draw.ellipse(screen, yellow, ball)  # Draw ball
